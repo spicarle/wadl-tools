@@ -1,0 +1,8 @@
+   Autentia WADL Tools
+   Copyright 2013 Autentia Real Business Solution S.L.
+
+   This product includes software developed at:
+
+      - The Apache Software Foundation (http://www.apache.org/).
+
+      - SpringSource (http://www.springsource.org/).
