@@ -9,11 +9,26 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <name>wadl-tools</name>
+    <description>Set of libraries to generate the WADL of REST services implemented with Spring Web MVC.</description>
+    <url>https://github.com/autentia/wadl-tools</url>
+
     <inceptionYear>2013</inceptionYear>
     <organization>
         <name>Autentia Real Business S.L.</name>
         <url>http://www.autentia.com</url>
     </organization>
+
+    <developers>
+        <developer>
+            <id>alejandropg</id>
+            <name>Alejandro Pérez García</name>
+            <email>alejandropg@autentia.com</email>
+            <url>http://www.adictosaltrabajo.com/usuarios/alejandro-perez</url>
+            <organization>Autentia Real Business Solutions S.L.</organization>
+            <organizationUrl>http://www.autentia.com</organizationUrl>
+        </developer>
+    </developers>
 
     <licenses>
         <license>
@@ -22,6 +37,12 @@
             <distribution>manual</distribution>
         </license>
     </licenses>
+
+    <scm>
+        <url>https://github.com/autentia/wadl-tools</url>
+        <connection>scm:git:git://github.com/autentia/wadl-tools.git</connection>
+        <developerConnection>scm:git:git@github.com:autentia/wadl-tools.git</developerConnection>
+    </scm>
 
     <modules>
         <module>spring-wadl-generator</module>

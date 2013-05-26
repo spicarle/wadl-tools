@@ -4,7 +4,7 @@ spring-wadl
 Introduction
 ------------
 
-This project is a library to generate the WADL of several REST services implemented with Spring Web MVC.
+This project is a set of libraries to generate the WADL of REST services implemented with Spring Web MVC.
 
 Some of the features that make interesting this project are:
 

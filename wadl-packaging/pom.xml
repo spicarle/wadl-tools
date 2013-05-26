@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -11,9 +12,12 @@
     <artifactId>wadl-packaging</artifactId>
     <packaging>pom</packaging>
 
+    <name>wadl-packaging</name>
+    <description>Some projects to help you to package the WADL and all the related grammars (schemas for complex types) on a zip file.</description>
+
     <modules>
         <module>wadl-zipper</module>
-    <module>wadl-zipper-maven-plugin</module>
-  </modules>
+        <module>wadl-zipper-maven-plugin</module>
+    </modules>
 
 </project>

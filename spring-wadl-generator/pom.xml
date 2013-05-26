@@ -13,6 +13,9 @@
 
     <artifactId>spring-wadl-generator</artifactId>
 
+    <name>spring-wadl-generator</name>
+    <description>Library you can use to generate WADL automatically from your Spring Web MVC application.</description>
+
     <build>
         <plugins>
             <plugin>

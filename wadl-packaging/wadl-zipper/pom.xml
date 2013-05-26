@@ -2,7 +2,9 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>com.autentia.web.rest</groupId>
         <artifactId>wadl-packaging</artifactId>
@@ -10,6 +12,9 @@
     </parent>
 
     <artifactId>wadl-zipper</artifactId>
+
+    <name>wadl-zipper</name>
+    <description>Library to extract the WADL, and all the grammars, from an URL and save all to a zip file.</description>
 
     <dependencies>
         <dependency>

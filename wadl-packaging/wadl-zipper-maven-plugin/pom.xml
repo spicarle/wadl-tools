@@ -2,7 +2,9 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
     <modelVersion>4.0.0</modelVersion>
+    
     <parent>
         <groupId>com.autentia.web.rest</groupId>
         <artifactId>wadl-packaging</artifactId>
@@ -11,6 +13,9 @@
 
     <artifactId>wadl-zipper-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
+
+    <name>wadl-zipper-maven-plugin</name>
+    <description>Maven plugin to generate on compilation time a zip file with the WADL, and all the grammars (schemas for complex types), from an URL.</description>
 
     <build>
         <plugins>
