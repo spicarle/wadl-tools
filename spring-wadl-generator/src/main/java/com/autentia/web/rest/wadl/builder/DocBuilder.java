@@ -7,16 +7,9 @@ import com.autentia.web.rest.wadl.builder.doc.DocFromAnnotationBuilderFactory;
 
 public class DocBuilder {
 
-	// private final Method javaMethod;
 	private final DocFromAnnotationBuilderFactory factory;
 
-	// private final List<Param> templateParams = new ArrayList<Param>();
-	// private final List<Param> noTemplateParams = new ArrayList<Param>();
-	// private final boolean allParametersAreBuilt = false;
-
 	DocBuilder() {
-		// DocBuilder(MethodContext ctx) {
-		// javaMethod = ctx.getJavaMethod();
 		factory = new DocFromAnnotationBuilderFactory();
 	}
 

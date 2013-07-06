@@ -15,36 +15,41 @@
  */
 package com.autentia.web.rest.wadl.builder;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import net.java.dev.wadl._2009._02.Doc;
+import java.util.Arrays;
 
-import org.junit.Test;
+import net.java.dev.wadl._2009._02.Doc;
 
 import com.autentia.dummy.JavaMethod;
 import com.autentia.web.rest.wadl.builder.doc.DocFromMethodAnnotationBuilder;
 
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.is;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Test;
+
 public class DocBuilderTest {
 
-    private static final MethodContextIterator IGNORED_METHOD_CONTEXT_ITERATOR = null;
+	private final DocFromMethodAnnotationBuilder docBuilder = new DocFromMethodAnnotationBuilder();
 
-    private final DocFromMethodAnnotationBuilder docBuilder = new DocFromMethodAnnotationBuilder();
+	@Test
+	public void givenAnnotatedMethod_whenBuildDoc_thenConvertDocumentedAnnotationToWadlDoc()
+			throws NoSuchMethodException {
+		final Doc doc = docBuilder.build(JavaMethod.WITH_DOCUMENTED_ANNOTATION);
 
-    @Test
-    public void givenVoidAsMethodReturnType_whenBuildRepresentation_thenDoNotAddAnything() throws NoSuchMethodException {
-       // final ApplicationContext appCtx = new ApplicationContext(IGNORED_METHOD_CONTEXT_ITERATOR, new GrammarsDiscoverer(new ClassTypeDiscoverer(new QNameBuilderFactory().getBuilder())));
-        final MethodContext methodCtxMock = mock(MethodContext.class);
+		assertEquals(
+				Arrays.asList(JavaMethod.WITH_DOCUMENTED_ANNOTATION_VALUE),
+				doc.getContent());
+	}
 
-        //doReturn(appCtx).when(methodCtxMock).getParentContext();
-//        doReturn(new HashSet<MediaType>() {{
-//            add(MediaType.APPLICATION_JSON);
-//        }}).when(methodCtxMock).getJavaMethod()
-//        ;
-        doReturn(JavaMethod.WITH_DOCUMENTED_ANNOTATION).when(methodCtxMock).getJavaMethod();
+	@Test
+	public void givenNoAnnotatedMethod_whenBuildDoc_thenDoNothing()
+			throws NoSuchMethodException {
+		final Doc doc = docBuilder
+				.build(JavaMethod.WITH_PATH_VARIABLE_PARAMETER);
 
-        final Doc docs = docBuilder.build(methodCtxMock);
-
-        System.out.println(docs);
-        //assertThat(docs.);
-    }
+		assertThat(doc.getContent(), is(empty()));
+	}
 }

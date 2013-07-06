@@ -24,8 +24,6 @@ class ResourceBuilder {
 
 	private final ApplicationContext applicationContext;
 	private final MethodBuilder methodBuilder = new MethodBuilder();
-	// private final DocFromAnnotationBuilderCommons docBuilder = new
-	// DocFromAnnotationBuilderCommons();
 	private final DocBuilder docBuilder;
 
 	ResourceBuilder(ApplicationContext applicationContext) {
@@ -52,7 +50,7 @@ class ResourceBuilder {
 					// withMethodOrResource(Collection<Object> values)
 					.withMethodOrResource(
 							(Collection) methodBuilder.build(methodContext))
-					.withDoc(docBuilder.build(methodContext)));
+					.withDoc(docBuilder.build(methodContext.getJavaMethod())));
 		}
 		return resources;
 	}

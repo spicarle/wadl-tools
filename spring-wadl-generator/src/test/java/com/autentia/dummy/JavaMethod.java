@@ -15,53 +15,66 @@
  */
 package com.autentia.dummy;
 
+import java.lang.reflect.Method;
+import java.util.Date;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.autentia.annotation.Documented;
 
-import java.lang.reflect.Method;
-import java.util.Date;
-
 public class JavaMethod {
 
-    public static final Method WITHOUT_PARAMETERS;
-    public static final Method WITH_PATH_VARIABLE_PARAMETER;
-    public static final Method WITH_PATH_VARIABLE_PARAMETER_WITH_EXPLICIT_NAME;
-    public static final Method WITH_REQUEST_PARAM_PARAMETER;
-    public static final Method WITH_REQUEST_PARAM_PARAMETER_WITH_EXPLICIT_NAME;
-    public static final Method WITH_DOCUMENTED_ANNOTATION;
-    
-    static {
-        try {
-            WITHOUT_PARAMETERS = JavaMethod.class.getDeclaredMethod("methodWithoutParameters");
-            WITH_PATH_VARIABLE_PARAMETER = JavaMethod.class.getDeclaredMethod("methodWithPathVariableParameter", String.class);
-            WITH_PATH_VARIABLE_PARAMETER_WITH_EXPLICIT_NAME = JavaMethod.class.getDeclaredMethod("methodWithPathVariableParameterWithExplicitName", Date.class);
-            WITH_REQUEST_PARAM_PARAMETER = JavaMethod.class.getDeclaredMethod("methodWithRequestParamParameter", int.class);
-            WITH_REQUEST_PARAM_PARAMETER_WITH_EXPLICIT_NAME = JavaMethod.class.getDeclaredMethod("methodWithRequestParamParameterWithExplicitName", Long.class);
-            WITH_DOCUMENTED_ANNOTATION = JavaMethod.class.getDeclaredMethod("methodWithDocumentedAnnotation");
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	public static final Method WITHOUT_PARAMETERS;
+	public static final Method WITH_PATH_VARIABLE_PARAMETER;
+	public static final Method WITH_PATH_VARIABLE_PARAMETER_WITH_EXPLICIT_NAME;
+	public static final Method WITH_REQUEST_PARAM_PARAMETER;
+	public static final Method WITH_REQUEST_PARAM_PARAMETER_WITH_EXPLICIT_NAME;
+	public static final Method WITH_DOCUMENTED_ANNOTATION;
 
-    public void methodWithoutParameters() {
-    }
+	public static final String WITH_DOCUMENTED_ANNOTATION_VALUE = "WITH_DOCUMENTED_ANNOTATION";
 
-    public void methodWithPathVariableParameter(@PathVariable String paramName) {
-    }
+	static {
+		try {
+			WITHOUT_PARAMETERS = JavaMethod.class
+					.getDeclaredMethod("methodWithoutParameters");
+			WITH_PATH_VARIABLE_PARAMETER = JavaMethod.class.getDeclaredMethod(
+					"methodWithPathVariableParameter", String.class);
+			WITH_PATH_VARIABLE_PARAMETER_WITH_EXPLICIT_NAME = JavaMethod.class
+					.getDeclaredMethod(
+							"methodWithPathVariableParameterWithExplicitName",
+							Date.class);
+			WITH_REQUEST_PARAM_PARAMETER = JavaMethod.class.getDeclaredMethod(
+					"methodWithRequestParamParameter", int.class);
+			WITH_REQUEST_PARAM_PARAMETER_WITH_EXPLICIT_NAME = JavaMethod.class
+					.getDeclaredMethod(
+							"methodWithRequestParamParameterWithExplicitName",
+							Long.class);
+			WITH_DOCUMENTED_ANNOTATION = JavaMethod.class
+					.getDeclaredMethod("methodWithDocumentedAnnotation");
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    public void methodWithPathVariableParameterWithExplicitName(@PathVariable("explicitParamName") Date paramName) {
-    }
+	public void methodWithoutParameters() {
+	}
 
-    public void methodWithRequestParamParameter(@RequestParam int paramName) {
-    }
+	public void methodWithPathVariableParameter(@PathVariable String paramName) {
+	}
 
-    public void methodWithRequestParamParameterWithExplicitName(
-            @RequestParam(value = "explicitParamName", required = false, defaultValue = "dummyDefaultValue") Long paramName) {
-    }
+	public void methodWithPathVariableParameterWithExplicitName(
+			@PathVariable("explicitParamName") Date paramName) {
+	}
 
-    @Documented("test doc")
-    public void methodWithDocumentedAnnotation() {
-    }
+	public void methodWithRequestParamParameter(@RequestParam int paramName) {
+	}
+
+	public void methodWithRequestParamParameterWithExplicitName(
+			@RequestParam(value = "explicitParamName", required = false, defaultValue = "dummyDefaultValue") Long paramName) {
+	}
+
+	@Documented(WITH_DOCUMENTED_ANNOTATION_VALUE)
+	public void methodWithDocumentedAnnotation() {
+	}
 }

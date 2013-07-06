@@ -30,42 +30,44 @@ import com.autentia.web.rest.wadl.builder.MethodContext;
 
 class SpringMethodContext extends MethodContext {
 
-    private final RequestMappingInfo mappingInfo;
-    private final HandlerMethod handlerMethod;
+	private final RequestMappingInfo mappingInfo;
+	private final HandlerMethod handlerMethod;
 
-    SpringMethodContext(ApplicationContext parentContext, RequestMappingInfo mappingInfo, HandlerMethod handlerMethod) {
-        super(parentContext);
-        this.mappingInfo = mappingInfo;
-        this.handlerMethod = handlerMethod;
-    }
+	SpringMethodContext(ApplicationContext parentContext,
+			RequestMappingInfo mappingInfo, HandlerMethod handlerMethod) {
+		super(parentContext);
+		this.mappingInfo = mappingInfo;
+		this.handlerMethod = handlerMethod;
+	}
 
-    @Override
-    protected String discoverPath() {
-        String path = null;
-        for (String uri : mappingInfo.getPatternsCondition().getPatterns()) {
-            path = uri;
-        }
-        return path;
-    }
+	@Override
+	protected String discoverPath() {
+		String path = null;
+		for (String uri : mappingInfo.getPatternsCondition().getPatterns()) {
+			path = uri;
+		}
+		return path;
+	}
 
-    @Override
-    public Method getJavaMethod() {
-        return handlerMethod.getMethod();
-    }
+	@Override
+	protected Method getJavaMethod() {
+		return handlerMethod.getMethod();
+	}
 
-    @Override
-    protected Set<HttpMethod> getHttpMethods() {
-        final Set<HttpMethod> httpMethods = EnumSet.noneOf(HttpMethod.class);
+	@Override
+	protected Set<HttpMethod> getHttpMethods() {
+		final Set<HttpMethod> httpMethods = EnumSet.noneOf(HttpMethod.class);
 
-        for (RequestMethod requestMethod : mappingInfo.getMethodsCondition().getMethods()) {
-            httpMethods.add(HttpMethod.valueOf(requestMethod.name()));
-        }
-        return httpMethods;
-    }
+		for (RequestMethod requestMethod : mappingInfo.getMethodsCondition()
+				.getMethods()) {
+			httpMethods.add(HttpMethod.valueOf(requestMethod.name()));
+		}
+		return httpMethods;
+	}
 
-    @Override
-    protected Set<MediaType> getMediaTypes() {
-        return mappingInfo.getProducesCondition().getProducibleMediaTypes();
-    }
+	@Override
+	protected Set<MediaType> getMediaTypes() {
+		return mappingInfo.getProducesCondition().getProducibleMediaTypes();
+	}
 
 }

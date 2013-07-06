@@ -1,20 +1,25 @@
 package com.autentia.web.rest.wadl.builder.doc;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.autentia.web.rest.wadl.builder.MethodContext;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DocFromAnnotationBuilderFactory {
-	
-    private final Map<String, DocFromAnnotationBuilder> docBuilderByAnnotation = new HashMap<String, DocFromAnnotationBuilder>();
 
-    public DocFromAnnotationBuilderFactory() {
-        docBuilderByAnnotation.put(MethodContext.class.getName(), new DocFromMethodAnnotationBuilder());
-      //  paramBuilderByAnnotation.put(PathVariable.class.getName(), new ParamFromPathVariableBuilder(grammarsDiscoverer));
-    }
+	private final List<DocFromAnnotationBuilder> docBuilderByAnnotation = new ArrayList<DocFromAnnotationBuilder>();
 
-    public DocFromAnnotationBuilder builderFor(Object object) {
-        return docBuilderByAnnotation.get(object.getClass().getName());
-    }
+	public DocFromAnnotationBuilderFactory() {
+		docBuilderByAnnotation.add(new DocFromMethodAnnotationBuilder());
+	}
+
+	public DocFromAnnotationBuilder builderFor(Object object) {
+		if (object != null) {
+			for (DocFromAnnotationBuilder b : docBuilderByAnnotation) {
+				if (b.supports(object.getClass())) {
+					return b;
+				}
+			}
+		}
+
+		return null;
+	}
 }

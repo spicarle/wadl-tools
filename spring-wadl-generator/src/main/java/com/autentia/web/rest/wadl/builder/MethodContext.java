@@ -24,31 +24,30 @@ import com.autentia.web.HttpMethod;
 
 public abstract class MethodContext {
 
-    private final ApplicationContext parentContext;
-    private ParamBuilder paramBuilder;
+	private final ApplicationContext parentContext;
+	private ParamBuilder paramBuilder;
 
-    protected MethodContext(ApplicationContext parentContext) {
-        this.parentContext = parentContext;
-    }
+	protected MethodContext(ApplicationContext parentContext) {
+		this.parentContext = parentContext;
+	}
 
-    ApplicationContext getParentContext() {
-        return parentContext;
-    }
+	ApplicationContext getParentContext() {
+		return parentContext;
+	}
 
-    ParamBuilder getParamBuilder() {
-        return paramBuilder;
-    }
+	ParamBuilder getParamBuilder() {
+		return paramBuilder;
+	}
 
-    void setParamBuilder(ParamBuilder paramBuilder) {
-        this.paramBuilder = paramBuilder;
-    }
+	void setParamBuilder(ParamBuilder paramBuilder) {
+		this.paramBuilder = paramBuilder;
+	}
 
-    protected abstract String discoverPath();
+	protected abstract String discoverPath();
 
-    //TODO
-    public abstract Method getJavaMethod();
+	protected abstract Method getJavaMethod();
 
-    protected abstract Set<HttpMethod> getHttpMethods();
+	protected abstract Set<HttpMethod> getHttpMethods();
 
-    protected abstract Set<MediaType> getMediaTypes();
+	protected abstract Set<MediaType> getMediaTypes();
 }
