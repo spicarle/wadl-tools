@@ -31,6 +31,7 @@ public class JavaMethod {
 	public static final Method WITH_REQUEST_PARAM_PARAMETER;
 	public static final Method WITH_REQUEST_PARAM_PARAMETER_WITH_EXPLICIT_NAME;
 	public static final Method WITH_DOCUMENTED_ANNOTATION;
+	public static final Method WITH_DOCUMENTED_PARAMETER;
 
 	public static final String WITH_DOCUMENTED_ANNOTATION_VALUE = "WITH_DOCUMENTED_ANNOTATION";
 
@@ -52,6 +53,8 @@ public class JavaMethod {
 							Long.class);
 			WITH_DOCUMENTED_ANNOTATION = JavaMethod.class
 					.getDeclaredMethod("methodWithDocumentedAnnotation");
+			WITH_DOCUMENTED_PARAMETER = JavaMethod.class.getDeclaredMethod(
+					"methodWithDocumentedParameter", String.class);
 		} catch (NoSuchMethodException e) {
 			throw new RuntimeException(e);
 		}
@@ -76,5 +79,9 @@ public class JavaMethod {
 
 	@Documented(WITH_DOCUMENTED_ANNOTATION_VALUE)
 	public void methodWithDocumentedAnnotation() {
+	}
+
+	public void methodWithDocumentedParameter(
+			@Documented("parameterDocumentation") String paramName) {
 	}
 }

@@ -5,10 +5,17 @@ import java.util.List;
 
 public class DocFromAnnotationBuilderFactory {
 
+	private static final DocFromAnnotationBuilderFactory INSTANCE = new DocFromAnnotationBuilderFactory();
+
 	private final List<DocFromAnnotationBuilder> docBuilderByAnnotation = new ArrayList<DocFromAnnotationBuilder>();
 
-	public DocFromAnnotationBuilderFactory() {
+	private DocFromAnnotationBuilderFactory() {
 		docBuilderByAnnotation.add(new DocFromMethodAnnotationBuilder());
+		docBuilderByAnnotation.add(new DocFromAnyAnnotationBuilder());
+	}
+
+	public static DocFromAnnotationBuilderFactory getInstance() {
+		return INSTANCE;
 	}
 
 	public DocFromAnnotationBuilder builderFor(Object object) {

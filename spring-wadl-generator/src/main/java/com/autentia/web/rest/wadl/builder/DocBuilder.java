@@ -10,7 +10,7 @@ public class DocBuilder {
 	private final DocFromAnnotationBuilderFactory factory;
 
 	DocBuilder() {
-		factory = new DocFromAnnotationBuilderFactory();
+		factory = DocFromAnnotationBuilderFactory.getInstance();
 	}
 
 	Doc build(Object object) {

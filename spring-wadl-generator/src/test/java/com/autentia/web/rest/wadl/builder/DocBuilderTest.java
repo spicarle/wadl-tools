@@ -20,7 +20,6 @@ import java.util.Arrays;
 import net.java.dev.wadl._2009._02.Doc;
 
 import com.autentia.dummy.JavaMethod;
-import com.autentia.web.rest.wadl.builder.doc.DocFromMethodAnnotationBuilder;
 
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
@@ -32,7 +31,7 @@ import org.junit.Test;
 
 public class DocBuilderTest {
 
-	private final DocFromMethodAnnotationBuilder docBuilder = new DocFromMethodAnnotationBuilder();
+	private final DocBuilder docBuilder = new DocBuilder();
 
 	@Test
 	public void givenAnnotatedMethod_whenBuildDoc_thenConvertDocumentedAnnotationToWadlDoc()
@@ -51,5 +50,14 @@ public class DocBuilderTest {
 				.build(JavaMethod.WITH_PATH_VARIABLE_PARAMETER);
 
 		assertThat(doc.getContent(), is(empty()));
+	}
+
+	@Test
+	public void givenAnnotatedMethodParameter_thenConvertDocumentedParameterToWadlDoc()
+			throws NoSuchMethodException {
+		final Doc doc = docBuilder.build(JavaMethod.WITH_DOCUMENTED_PARAMETER
+				.getParameterAnnotations()[0]);
+
+		assertEquals("parameterDocumentation", doc.getContent().get(0));
 	}
 }
