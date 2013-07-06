@@ -1,57 +1,35 @@
 package com.autentia.web.rest.wadl.builder;
 
-
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Collection;
-
 import net.java.dev.wadl._2009._02.Doc;
 
+import com.autentia.web.rest.wadl.builder.doc.DocFromAnnotationBuilder;
+import com.autentia.web.rest.wadl.builder.doc.DocFromAnnotationBuilderFactory;
 
 public class DocBuilder {
 
+	// private final Method javaMethod;
+	private final DocFromAnnotationBuilderFactory factory;
 
-	
-    Collection<Doc> build(MethodContext ctx) {
-    	Method javaMethod = ctx.getJavaMethod();
-    	Annotation[] annotations = javaMethod.getAnnotations();
-    	
-    	for(Annotation a : annotations) {
-    		
-    		String name = a.annotationType().getSimpleName();
-    		
-    		if("Documented".equals(name)) {    			
-    			try {
-					Field[] declaredField = a.getClass().getDeclaredFields();
-					
-					for(Field f : declaredField) {
-						f.setAccessible(true);
-						Method object = (Method) f.get(a.getClass());
-						
-						if("value".equals(object.getName())) {				
-							Object invoke = object.invoke(a);
-							
-							if(invoke instanceof String[]) {
-								String[] s = (String[]) invoke;
-								
-								System.out.println("return: " + s[0]);
-							}
-							if(invoke instanceof String) {
-								String s = (String) invoke;
-								
-								System.out.println("return: " + s);
-							}
-						}
-					}
-				
-    			} catch (Exception e) {
-    				throw new RuntimeException(e.getMessage(), e);
-    			}
-    		}
-    	}
+	// private final List<Param> templateParams = new ArrayList<Param>();
+	// private final List<Param> noTemplateParams = new ArrayList<Param>();
+	// private final boolean allParametersAreBuilt = false;
 
-        return null;
-    }
+	DocBuilder() {
+		// DocBuilder(MethodContext ctx) {
+		// javaMethod = ctx.getJavaMethod();
+		factory = new DocFromAnnotationBuilderFactory();
+	}
+
+	Doc build(Object object) {
+		Doc doc = null;
+
+		DocFromAnnotationBuilder builderFor = factory.builderFor(object);
+
+		if (builderFor != null) {
+			doc = builderFor.build(object);
+		}
+
+		return doc;
+	}
+
 }

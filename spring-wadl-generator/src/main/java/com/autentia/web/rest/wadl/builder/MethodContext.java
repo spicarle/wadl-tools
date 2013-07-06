@@ -15,11 +15,12 @@
  */
 package com.autentia.web.rest.wadl.builder;
 
-import com.autentia.web.HttpMethod;
-import org.springframework.http.MediaType;
-
 import java.lang.reflect.Method;
 import java.util.Set;
+
+import org.springframework.http.MediaType;
+
+import com.autentia.web.HttpMethod;
 
 public abstract class MethodContext {
 
@@ -44,7 +45,8 @@ public abstract class MethodContext {
 
     protected abstract String discoverPath();
 
-    protected abstract Method getJavaMethod();
+    //TODO
+    public abstract Method getJavaMethod();
 
     protected abstract Set<HttpMethod> getHttpMethods();
 

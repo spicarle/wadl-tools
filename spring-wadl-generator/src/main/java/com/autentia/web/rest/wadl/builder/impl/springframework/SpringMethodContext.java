@@ -15,17 +15,18 @@
  */
 package com.autentia.web.rest.wadl.builder.impl.springframework;
 
-import com.autentia.web.HttpMethod;
-import com.autentia.web.rest.wadl.builder.ApplicationContext;
-import com.autentia.web.rest.wadl.builder.MethodContext;
+import java.lang.reflect.Method;
+import java.util.EnumSet;
+import java.util.Set;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 
-import java.lang.reflect.Method;
-import java.util.EnumSet;
-import java.util.Set;
+import com.autentia.web.HttpMethod;
+import com.autentia.web.rest.wadl.builder.ApplicationContext;
+import com.autentia.web.rest.wadl.builder.MethodContext;
 
 class SpringMethodContext extends MethodContext {
 
@@ -48,7 +49,7 @@ class SpringMethodContext extends MethodContext {
     }
 
     @Override
-    protected Method getJavaMethod() {
+    public Method getJavaMethod() {
         return handlerMethod.getMethod();
     }
 

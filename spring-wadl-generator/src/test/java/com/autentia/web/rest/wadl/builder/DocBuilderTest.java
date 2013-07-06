@@ -15,30 +15,20 @@
  */
 package com.autentia.web.rest.wadl.builder;
 
-import com.autentia.dummy.JavaMethod;
-import com.autentia.xml.schema.ClassTypeDiscoverer;
-import com.autentia.web.rest.wadl.builder.namespace.GrammarsDiscoverer;
-import com.autentia.web.rest.wadl.builder.namespace.QNameBuilderFactory;
-
-import net.java.dev.wadl._2009._02.Doc;
-import net.java.dev.wadl._2009._02.Representation;
-
-import org.hamcrest.Matchers;
-import org.junit.Test;
-import org.springframework.http.MediaType;
-
-import java.util.Collection;
-import java.util.HashSet;
-
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import net.java.dev.wadl._2009._02.Doc;
+
+import org.junit.Test;
+
+import com.autentia.dummy.JavaMethod;
+import com.autentia.web.rest.wadl.builder.doc.DocFromMethodAnnotationBuilder;
 
 public class DocBuilderTest {
 
     private static final MethodContextIterator IGNORED_METHOD_CONTEXT_ITERATOR = null;
 
-    private final DocBuilder docBuilder = new DocBuilder();
+    private final DocFromMethodAnnotationBuilder docBuilder = new DocFromMethodAnnotationBuilder();
 
     @Test
     public void givenVoidAsMethodReturnType_whenBuildRepresentation_thenDoNotAddAnything() throws NoSuchMethodException {
@@ -52,8 +42,9 @@ public class DocBuilderTest {
 //        ;
         doReturn(JavaMethod.WITH_DOCUMENTED_ANNOTATION).when(methodCtxMock).getJavaMethod();
 
-        final Collection<Doc> docs = docBuilder.build(methodCtxMock);
+        final Doc docs = docBuilder.build(methodCtxMock);
 
-       // assertThat(representations, Matchers.is(Matchers.empty()));
+        System.out.println(docs);
+        //assertThat(docs.);
     }
 }
