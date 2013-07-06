@@ -60,4 +60,13 @@ public class DocBuilderTest {
 
 		assertEquals("parameterDocumentation", doc.getContent().get(0));
 	}
+
+	@Test
+	public void givenAnnotatedObject_whenBuildDoc_thenConvertDocumentedTypeToWadlDoc()
+			throws NoSuchMethodException {
+		final Doc doc = docBuilder.build(JavaMethod.WITH_DOCUMENTED_RETURN_TYPE
+				.getReturnType());
+
+		assertEquals("typeDocumentation", doc.getContent().get(0));
+	}
 }

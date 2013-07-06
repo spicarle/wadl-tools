@@ -4,7 +4,7 @@ import net.java.dev.wadl._2009._02.Doc;
 
 public interface DocFromAnnotationBuilder {
 
-	boolean supports(Class<?> clazz);
+	boolean supports(Object object);
 
 	Doc build(Object object);
 

@@ -32,6 +32,7 @@ public class JavaMethod {
 	public static final Method WITH_REQUEST_PARAM_PARAMETER_WITH_EXPLICIT_NAME;
 	public static final Method WITH_DOCUMENTED_ANNOTATION;
 	public static final Method WITH_DOCUMENTED_PARAMETER;
+	public static final Method WITH_DOCUMENTED_RETURN_TYPE;
 
 	public static final String WITH_DOCUMENTED_ANNOTATION_VALUE = "WITH_DOCUMENTED_ANNOTATION";
 
@@ -55,6 +56,9 @@ public class JavaMethod {
 					.getDeclaredMethod("methodWithDocumentedAnnotation");
 			WITH_DOCUMENTED_PARAMETER = JavaMethod.class.getDeclaredMethod(
 					"methodWithDocumentedParameter", String.class);
+			WITH_DOCUMENTED_RETURN_TYPE = JavaMethod.class
+					.getDeclaredMethod("methodWithDocumentedReturnType");
+
 		} catch (NoSuchMethodException e) {
 			throw new RuntimeException(e);
 		}
@@ -83,5 +87,9 @@ public class JavaMethod {
 
 	public void methodWithDocumentedParameter(
 			@Documented("parameterDocumentation") String paramName) {
+	}
+
+	public DocumentedType methodWithDocumentedReturnType() {
+		return new DocumentedType();
 	}
 }

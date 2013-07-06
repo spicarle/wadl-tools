@@ -12,6 +12,7 @@ public class DocFromAnnotationBuilderFactory {
 	private DocFromAnnotationBuilderFactory() {
 		docBuilderByAnnotation.add(new DocFromMethodAnnotationBuilder());
 		docBuilderByAnnotation.add(new DocFromAnyAnnotationBuilder());
+		docBuilderByAnnotation.add(new DocFromTypeAnnotationBuilder());
 	}
 
 	public static DocFromAnnotationBuilderFactory getInstance() {
@@ -21,7 +22,7 @@ public class DocFromAnnotationBuilderFactory {
 	public DocFromAnnotationBuilder builderFor(Object object) {
 		if (object != null) {
 			for (DocFromAnnotationBuilder b : docBuilderByAnnotation) {
-				if (b.supports(object.getClass())) {
+				if (b.supports(object)) {
 					return b;
 				}
 			}

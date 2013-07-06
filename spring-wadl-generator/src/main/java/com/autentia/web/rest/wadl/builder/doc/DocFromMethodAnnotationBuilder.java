@@ -4,8 +4,8 @@ import java.lang.reflect.Method;
 
 import net.java.dev.wadl._2009._02.Doc;
 
-public class DocFromMethodAnnotationBuilder extends
-		DocFromAnnotationBuilderCommons implements DocFromAnnotationBuilder {
+class DocFromMethodAnnotationBuilder extends DocFromAnnotationBuilderCommons
+		implements DocFromAnnotationBuilder {
 
 	@Override
 	public Doc build(Object object) {
@@ -27,8 +27,14 @@ public class DocFromMethodAnnotationBuilder extends
 	}
 
 	@Override
-	public boolean supports(Class<?> clazz) {
-		return Method.class.isAssignableFrom(clazz);
+	public boolean supports(Object object) {
+		boolean result = false;
+
+		if (object != null) {
+			result = Method.class.isAssignableFrom(object.getClass());
+		}
+
+		return result;
 	}
 
 }

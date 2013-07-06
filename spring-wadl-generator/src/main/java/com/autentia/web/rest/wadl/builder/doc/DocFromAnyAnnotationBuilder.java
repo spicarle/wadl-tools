@@ -4,12 +4,18 @@ import java.lang.annotation.Annotation;
 
 import net.java.dev.wadl._2009._02.Doc;
 
-public class DocFromAnyAnnotationBuilder extends
-		DocFromAnnotationBuilderCommons implements DocFromAnnotationBuilder {
+class DocFromAnyAnnotationBuilder extends DocFromAnnotationBuilderCommons
+		implements DocFromAnnotationBuilder {
 
 	@Override
-	public boolean supports(Class<?> clazz) {
-		return Annotation[].class.isAssignableFrom(clazz);
+	public boolean supports(Object object) {
+		boolean result = false;
+
+		if (object != null) {
+			result = Annotation[].class.isAssignableFrom(object.getClass());
+		}
+
+		return result;
 	}
 
 	@Override
