@@ -18,6 +18,8 @@ package com.autentia.dummy;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.autentia.annotation.Documented;
+
 import java.lang.reflect.Method;
 import java.util.Date;
 
@@ -28,7 +30,8 @@ public class JavaMethod {
     public static final Method WITH_PATH_VARIABLE_PARAMETER_WITH_EXPLICIT_NAME;
     public static final Method WITH_REQUEST_PARAM_PARAMETER;
     public static final Method WITH_REQUEST_PARAM_PARAMETER_WITH_EXPLICIT_NAME;
-
+    public static final Method WITH_DOCUMENTED_ANNOTATION;
+    
     static {
         try {
             WITHOUT_PARAMETERS = JavaMethod.class.getDeclaredMethod("methodWithoutParameters");
@@ -36,7 +39,7 @@ public class JavaMethod {
             WITH_PATH_VARIABLE_PARAMETER_WITH_EXPLICIT_NAME = JavaMethod.class.getDeclaredMethod("methodWithPathVariableParameterWithExplicitName", Date.class);
             WITH_REQUEST_PARAM_PARAMETER = JavaMethod.class.getDeclaredMethod("methodWithRequestParamParameter", int.class);
             WITH_REQUEST_PARAM_PARAMETER_WITH_EXPLICIT_NAME = JavaMethod.class.getDeclaredMethod("methodWithRequestParamParameterWithExplicitName", Long.class);
-
+            WITH_DOCUMENTED_ANNOTATION = JavaMethod.class.getDeclaredMethod("methodWithDocumentedAnnotation");
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -58,4 +61,7 @@ public class JavaMethod {
             @RequestParam(value = "explicitParamName", required = false, defaultValue = "dummyDefaultValue") Long paramName) {
     }
 
+    @Documented("test doc")
+    public void methodWithDocumentedAnnotation() {
+    }
 }
