@@ -31,7 +31,7 @@ import static org.mockito.Mockito.*;
 
 public class WadlZipperTest {
 
-    private static final String HOST_URI = "http://localhost:8080";
+    private static final String HOST_URI = "http://localhost:7070";
     private static final String REST_URI = HOST_URI + "/spring-wadl-showcase/rest";
     private static final String WADL_URI = REST_URI + "/wadl";
 

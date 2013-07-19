@@ -23,7 +23,7 @@ Afterwards, return to this module and run the _Jetty_ server with:
 
     mvn jetty:run
 
-Now you can access to the WADL in the URL: <http://localhost:8080/spring-wadl-showcase/rest/wadl>
+Now you can access to the WADL in the URL: <http://localhost:7070/spring-wadl-showcase/rest/wadl>
 
 To access to some schema of a complex type, use, for example, the URL:
-<http://localhost:8080/spring-wadl-showcase/rest/schema/contact>
+<http://localhost:7070/spring-wadl-showcase/rest/schema/contact>

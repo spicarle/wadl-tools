@@ -29,7 +29,7 @@
                     <artifactId>wadl-zipper-maven-plugin</artifactId>
                     <version>${project.version}</version>
                     <configuration>
-                        <wadlUri>http://localhost:8080/spring-wadl-showcase/rest/wadl</wadlUri>
+                        <wadlUri>http://localhost:7070/spring-wadl-showcase/rest/wadl</wadlUri>
                     </configuration>
                     <executions>
                         <execution>

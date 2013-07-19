@@ -17,7 +17,7 @@ To use the plugin you only have to add to your pom:
             <artifactId>wadl-zipper-maven-plugin</artifactId>
             <version>1.0-SNAPSHOT</version>
             <configuration>
-                <wadlUri>http://localhost:8080/spring-wadl-showcase/rest/wadl</wadlUri>
+                <wadlUri>http://localhost:7070/spring-wadl-showcase/rest/wadl</wadlUri>
                 <zipFile>${project.build.directory}/wadl.zip</zipFile>
             </configuration>
             <executions>

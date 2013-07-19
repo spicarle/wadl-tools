@@ -84,6 +84,12 @@
                     <artifactId>jetty-maven-plugin</artifactId>
                     <version>8.1.10.v20130312</version>
                     <configuration>
+                        <systemProperties>
+                            <systemProperty>
+                                <name>jetty.port</name>
+                                <value>7070</value>
+                            </systemProperty>
+                        </systemProperties>
                         <scanIntervalSeconds>2</scanIntervalSeconds>
                         <stopPort>9999</stopPort>
                         <stopKey>stop</stopKey>

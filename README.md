@@ -131,7 +131,7 @@ Be sure this controller is in the Spring Web MVC context (maybe put in a package
 manually).
 
 Now the WADL generation should be working. With this example you can access it on:
-**<http://localhost:8080/my-app/rest/wadl>**
+**<http://localhost:7070/my-app/rest/wadl>**
 
 
 
