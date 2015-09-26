@@ -16,14 +16,18 @@
 package com.autentia.web.rest.wadl.builder;
 
 import net.java.dev.wadl._2009._02.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 
 class ResponseBuilder {
 
     private static final long OK = 200L;
-
+    private static final Logger logger = LoggerFactory.getLogger(ResponseBuilder.class);
     private final RepresentationBuilder representationBuilder = new RepresentationBuilder();
 
     Collection<Response> build(MethodContext ctx) {
@@ -32,8 +36,15 @@ class ResponseBuilder {
          * By now just one 'response' element is returned, but the method returns a collection
          * because the specification supports several elements of this kind.
          */
+        long status = OK;
+        for (Annotation a : ctx.getJavaMethod().getDeclaredAnnotations()) {
+            if ("org.springframework.web.bind.annotation.ResponseStatus".equalsIgnoreCase(a.annotationType().getCanonicalName())) {
+                status = ((ResponseStatus) a).value().value();
+                logger.debug("Set Response status to {0}", status);
+            }
+        }
         responses.add(new Response()
-                .withStatus(OK)
+                .withStatus(status)
                 .withRepresentation(representationBuilder.build(ctx)));
         return responses;
     }
