@@ -19,6 +19,7 @@ import net.java.dev.wadl._2009._02.Resources;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 class ResourcesBuilder {
 
@@ -37,7 +38,9 @@ class ResourcesBuilder {
          */
         resourcesElements.add(new Resources()
                 .withBase(baseUrl)
-                .withResource(resourceBuilder.build()));
+                .withResource(resourceBuilder.build())
+                //TODO
+                .withDoc(Collections.EMPTY_LIST));
 
         return resourcesElements;
     }

@@ -15,34 +15,43 @@
  */
 package com.autentia.web.rest.wadl.builder;
 
-import net.java.dev.wadl._2009._02.Resource;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
+import net.java.dev.wadl._2009._02.Resource;
+
 class ResourceBuilder {
 
-    private final ApplicationContext applicationContext;
-    private final MethodBuilder methodBuilder = new MethodBuilder();
+	private final ApplicationContext applicationContext;
+	private final MethodBuilder methodBuilder = new MethodBuilder();
+	private final DocBuilder docBuilder;
 
-    ResourceBuilder(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
+	ResourceBuilder(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
+		this.docBuilder = new DocBuilder();
+	}
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    Collection<Resource> build() {
-        final Collection<Resource> resources = new ArrayList<Resource>();
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	Collection<Resource> build() {
+		final Collection<Resource> resources = new ArrayList<Resource>();
 
-        for (MethodContext methodContext : applicationContext) {
-            methodContext.setParamBuilder(new ParamBuilder(methodContext));
+		for (MethodContext methodContext : applicationContext) {
+			methodContext.setParamBuilder(new ParamBuilder(methodContext));
 
-            resources.add(new Resource()
-                    .withPath(methodContext.discoverPath())
-                    .withParam(methodContext.getParamBuilder().buildTemplateParams())
-                    // Cast to Collection because in other case Collection<Method> is resolved with withMethodOrResource(Object... values),
-                    // and we want to resolve with withMethodOrResource(Collection<Object> values)
-                    .withMethodOrResource((Collection) methodBuilder.build(methodContext)));
-        }
-        return resources;
-    }
+			resources.add(new Resource()
+					.withPath(methodContext.discoverPath())
+					.withParam(
+							methodContext.getParamBuilder()
+									.buildTemplateParams())
+					// Cast to Collection because in other case
+					// Collection<Method> is resolved with
+					// withMethodOrResource(Object... values),
+					// and we want to resolve with
+					// withMethodOrResource(Collection<Object> values)
+					.withMethodOrResource(
+							(Collection) methodBuilder.build(methodContext))
+					.withDoc(docBuilder.build(methodContext.getJavaMethod())));
+		}
+		return resources;
+	}
 }

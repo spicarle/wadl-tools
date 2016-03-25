@@ -15,34 +15,49 @@
  */
 package com.autentia.web.rest.wadl.builder;
 
-import com.autentia.lang.ClassMetadataFromReturnType;
-import com.autentia.web.rest.wadl.builder.namespace.GrammarsDiscoverer;
-import net.java.dev.wadl._2009._02.Representation;
-import org.springframework.http.MediaType;
-
-import javax.xml.namespace.QName;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.xml.namespace.QName;
+
+import net.java.dev.wadl._2009._02.Representation;
+
+import org.springframework.http.MediaType;
+
+import com.autentia.lang.ClassMetadataFromReturnType;
+import com.autentia.web.rest.wadl.builder.namespace.GrammarsDiscoverer;
 
 import static com.autentia.lang.ClassUtils.isVoid;
 
 class RepresentationBuilder {
 
-    Collection<Representation> build(MethodContext ctx) {
-        final Collection<Representation> representations = new ArrayList<Representation>();
-        final Method javaMethod = ctx.getJavaMethod();
-        final GrammarsDiscoverer grammarsDiscoverer = ctx.getParentContext().getGrammarsDiscoverer();
+	private final DocBuilder docBuilder;
 
-        for (MediaType mediaType : ctx.getMediaTypes()) {
-            final Class<?> returnType = javaMethod.getReturnType();
-            if (isVoid(returnType)) {
-                continue;
-            }
+	RepresentationBuilder() {
+		this.docBuilder = new DocBuilder();
+	}
 
-            final QName qName = grammarsDiscoverer.discoverQNameFor(new ClassMetadataFromReturnType(javaMethod));
-            representations.add(new Representation().withMediaType(mediaType.toString()).withElement(qName));
-        }
-        return representations;
-    }
+	Collection<Representation> build(MethodContext ctx) {
+		final Collection<Representation> representations = new ArrayList<Representation>();
+		final Method javaMethod = ctx.getJavaMethod();
+		final GrammarsDiscoverer grammarsDiscoverer = ctx.getParentContext()
+				.getGrammarsDiscoverer();
+
+		for (MediaType mediaType : ctx.getMediaTypes()) {
+			final Class<?> returnType = javaMethod.getReturnType();
+			if (isVoid(returnType)) {
+				continue;
+			}
+
+			ClassMetadataFromReturnType classMetadataFromReturnType = new ClassMetadataFromReturnType(
+					javaMethod);
+			final QName qName = grammarsDiscoverer
+					.discoverQNameFor(classMetadataFromReturnType);
+			representations.add(new Representation()
+					.withMediaType(mediaType.toString()).withElement(qName)
+					.withDoc(docBuilder.build(javaMethod.getReturnType())));
+		}
+		return representations;
+	}
 }
