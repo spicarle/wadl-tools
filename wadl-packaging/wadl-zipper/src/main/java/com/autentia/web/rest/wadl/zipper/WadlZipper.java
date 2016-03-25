@@ -15,6 +15,7 @@
  */
 package com.autentia.web.rest.wadl.zipper;
 
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -26,11 +27,22 @@ import java.net.URISyntaxException;
 public class WadlZipper {
 
     static final String DEFAULT_WADL_FILENAME = "wadl.xml";
+    static final String HTML_WADL_FILENAME = "wadl.html";
+
     static final String DEFAULT_SCHEMA_EXTENSION = ".xsd";
+    static final String DEFAULT_JSON_SCHEMA_EXTENSION = ".json";
+
     private final URI wadlUri;
+    private URI wadlHtmlUri = null;
+    private boolean generateJsonschema;
 
     public WadlZipper(String wadlUri) throws URISyntaxException {
         this.wadlUri = new URI(wadlUri);
+    }
+
+    public WadlZipper(String wadlUri,String wadlHtmlUri) throws URISyntaxException {
+        this.wadlUri = new URI(wadlUri);
+        this.wadlHtmlUri = new URI(wadlHtmlUri);
     }
 
     public void saveTo(String zipPathName) throws IOException, URISyntaxException {
@@ -51,11 +63,26 @@ public class WadlZipper {
             final String wadlContent = httpClient.getAsString(wadlUri);
             zip.add(DEFAULT_WADL_FILENAME, IOUtils.toInputStream(wadlContent));
 
+            if(wadlHtmlUri!=null){
+                final String wadlHtmlContent = httpClient.getAsString(wadlHtmlUri);
+                if(wadlHtmlContent!=null&& !wadlHtmlContent.isEmpty()){
+                zip.add(HTML_WADL_FILENAME, IOUtils.toInputStream(wadlHtmlContent));
+                }
+            }
+
             for (String grammarUri : new GrammarsUrisExtractor().extractFrom(wadlContent)) {
                 final URI uri = new URI(grammarUri);
-                final String name = composesGrammarFileNameWith(uri);
+                final String name = composesGrammarFileNameWith(uri,DEFAULT_SCHEMA_EXTENSION);
+
                 final InputStream inputStream = httpClient.getAsStream(wadlUri.resolve(uri));
                 zip.add(name, inputStream);
+
+                if(generateJsonschema){
+                    final URI jsonUri = new URI(grammarUri.replace("schema","jsonschema"));
+                    final String jsonName = composesGrammarFileNameWith(jsonUri,DEFAULT_JSON_SCHEMA_EXTENSION);
+                    final InputStream jsonInputStream = httpClient.getAsStream(wadlUri.resolve(jsonUri));
+                    zip.add(jsonName, jsonInputStream);
+                }
             }
 
         } finally {
@@ -63,7 +90,7 @@ public class WadlZipper {
         }
     }
 
-    private String composesGrammarFileNameWith(URI grammarUri) {
+    private String composesGrammarFileNameWith(URI grammarUri,String extension) {
         String pathName = "";
 
         final String host = grammarUri.getHost();
@@ -77,9 +104,13 @@ public class WadlZipper {
         }
         pathName += uriPath;
 
-        if (!pathName.toLowerCase().endsWith(DEFAULT_SCHEMA_EXTENSION)) {
-            pathName += DEFAULT_SCHEMA_EXTENSION;
+        if (!pathName.toLowerCase().endsWith(extension)) {
+            pathName += extension;
         }
         return pathName;
+    }
+
+    public void generateJsonschema(boolean generateJsonschema) {
+        this.generateJsonschema = generateJsonschema;
     }
 }

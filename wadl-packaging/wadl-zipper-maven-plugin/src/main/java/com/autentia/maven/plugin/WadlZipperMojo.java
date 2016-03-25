@@ -36,6 +36,12 @@ public class WadlZipperMojo extends AbstractMojo {
     @Parameter(required = true)
     private String wadlUri;
 
+    @Parameter(required = false)
+    private String wadlHtmlUri;
+
+    @Parameter(required = false)
+    private boolean generateJsonschema;
+
     /** Path to the zip file where store all the data. By default is 'target/wadl.zip' */
     @Parameter(defaultValue = "${project.build.directory}/wadl.zip")
     private String zipFile;
@@ -45,9 +51,16 @@ public class WadlZipperMojo extends AbstractMojo {
         getLog().info("Extracting WADL from: " + wadlUri + ", to zip file: " + zipFile);
 
         try {
-            final WadlZipper wadlZipper = new WadlZipper(wadlUri);
-            wadlZipper.saveTo(zipFile);
+            if(wadlHtmlUri!=null){
+                final WadlZipper wadlZipper = new WadlZipper(wadlUri,wadlHtmlUri);
+                wadlZipper.generateJsonschema(generateJsonschema);
+                wadlZipper.saveTo(zipFile);
+            }else{
+                final WadlZipper wadlZipper = new WadlZipper(wadlUri);
+                wadlZipper.generateJsonschema(generateJsonschema);
+                wadlZipper.saveTo(zipFile);
 
+            }
         } catch (URISyntaxException e) {
             throw new MojoFailureException("WADL URI appears not be valid: " + wadlUri, e);
 

@@ -30,6 +30,8 @@
                     <version>${project.version}</version>
                     <configuration>
                         <wadlUri>http://localhost:7070/spring-wadl-showcase/rest/wadl</wadlUri>
+                        <wadlHtmlUri>http://localhost:7070/spring-wadl-showcase/rest/wadl.html</wadlHtmlUri>
+                        <generateJsonschema>true</generateJsonschema>
                     </configuration>
                     <executions>
                         <execution>
@@ -55,6 +57,16 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-jsonSchema</artifactId>
+        </dependency>
+       <!-- <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jsp-2.1</artifactId>
+            <version>6.1.14</version>
+        </dependency>-->
 
         <dependency>
             <groupId>ch.qos.logback</groupId>

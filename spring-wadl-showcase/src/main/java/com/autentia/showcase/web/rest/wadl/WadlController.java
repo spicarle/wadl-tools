@@ -17,11 +17,17 @@ package com.autentia.showcase.web.rest.wadl;
 
 import com.autentia.web.rest.wadl.builder.ApplicationBuilder;
 import com.autentia.web.rest.wadl.builder.impl.springframework.SpringWadlBuilderFactory;
+import com.autentia.xml.schema.ClassType;
 import com.autentia.xml.schema.ClassTypeNotFoundException;
 import com.autentia.xml.schema.SchemaBuilder;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
+import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
 import net.java.dev.wadl._2009._02.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +42,7 @@ import javax.servlet.http.HttpServletRequest;
 import static com.autentia.showcase.web.rest.contacts.AppRestConstants.REST_SERVICES_LOCATION;
 
 @Controller
-@RequestMapping(value = REST_SERVICES_LOCATION, produces = {"application/xml"})
+@RequestMapping(value = REST_SERVICES_LOCATION)
 public class WadlController {
 
     private final ApplicationBuilder applicationBuilder;
@@ -50,15 +56,27 @@ public class WadlController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "wadl", method = RequestMethod.GET)
+    @RequestMapping(value = "wadl", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
     public Application generateWadl(HttpServletRequest request) {
         return applicationBuilder.build(request);
     }
 
     @ResponseBody
-    @RequestMapping(value = "schema/{classTypeName}", method = RequestMethod.GET)
+    @RequestMapping(value = "wadl.html", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public String generateWadlHtml(HttpServletRequest request) {
+        return applicationBuilder.buildHtml(request);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "schema/{classTypeName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
     public String generateSchema(@PathVariable String classTypeName) {
         return schemaBuilder.buildFor(classTypeName);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "jsonschema/{classTypeName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String generateJsonSchema(@PathVariable String classTypeName) throws ClassNotFoundException, JsonMappingException {
+        return schemaBuilder.buildJsonSchemaFor(classTypeName);
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

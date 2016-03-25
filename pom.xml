@@ -52,8 +52,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>3.2.2.RELEASE</spring.version>
-        <jaxb2.version>0.6.4</jaxb2.version>
+        <spring.version>4.2.5.RELEASE</spring.version>
+        <jaxb2.version>0.11.0</jaxb2.version>
     </properties>
 
     <build>
@@ -82,7 +82,7 @@
                 <plugin>
                     <groupId>org.mortbay.jetty</groupId>
                     <artifactId>jetty-maven-plugin</artifactId>
-                    <version>8.1.10.v20130312</version>
+                    <version>8.1.16.v20140903</version>
                     <configuration>
                         <systemProperties>
                             <systemProperty>
@@ -242,6 +242,18 @@
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-mapper-asl</artifactId>
                 <version>1.9.12</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.6.5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-jsonSchema</artifactId>
+                <version>2.7.3</version>
             </dependency>
 
             <dependency>

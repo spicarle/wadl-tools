@@ -32,4 +32,7 @@ public class SchemaBuilder {
         return classTypeDiscoverer.getBy(localPart).toSchema();
     }
 
+    public String buildJsonSchemaFor(final String localPart) {
+        return classTypeDiscoverer.getBy(localPart).toJsonSchema();
+    }
 }

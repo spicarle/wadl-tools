@@ -19,8 +19,20 @@ import com.autentia.web.HttpServletRequestUtils;
 import net.java.dev.wadl._2009._02.Application;
 import net.java.dev.wadl._2009._02.Doc;
 import net.java.dev.wadl._2009._02.Grammars;
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.ClassPathResource;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.transform.*;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
 
 public class ApplicationBuilder {
 
@@ -41,5 +53,45 @@ public class ApplicationBuilder {
                 .withDoc(new Doc().withTitle("REST Service WADL"))
                 .withResources(resourcesBuilder.build(baseUrl))
                 .withGrammars(new Grammars().withInclude(includeBuilder.build()));
+    }
+
+    public String buildHtml(HttpServletRequest request){
+        return buildHtml(HttpServletRequestUtils.getBaseUrlOf(request));
+    }
+
+    public String buildHtml(String baseUrl) {
+        Application application = build(baseUrl);
+        final TransformerFactory factory = TransformerFactory.newInstance();
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(Application.class);
+
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            ClassPathResource classPathResource = new ClassPathResource("wadl.xslt");
+            StreamSource streamSource = new StreamSource(classPathResource.getInputStream());
+            final Transformer covTransformer = factory.newTransformer(streamSource);
+
+            ByteArrayOutputStream applicationOutputStream = new ByteArrayOutputStream();
+            jaxbMarshaller.marshal(application,applicationOutputStream);
+            ByteArrayInputStream applicationXml = new ByteArrayInputStream(applicationOutputStream.toByteArray());
+            Source text = new StreamSource(applicationXml);
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            covTransformer.transform(text, new StreamResult(outputStream));
+
+            byte[] test = outputStream.toByteArray();
+            return IOUtils.toString(new ByteArrayInputStream(test), Charset.forName("UTF-8"));
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

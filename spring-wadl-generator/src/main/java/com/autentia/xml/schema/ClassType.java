@@ -15,9 +15,19 @@
  */
 package com.autentia.xml.schema;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
+import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+//import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+
 import javax.xml.namespace.QName;
 
 public abstract class ClassType {
+
+    private static final Logger logger = LoggerFactory.getLogger(ClassType.class);
 
     final Class<?> clazz;
     final QName qName;
@@ -28,6 +38,22 @@ public abstract class ClassType {
     }
 
     public abstract String toSchema();
+
+    public String toJsonSchema(){
+        try {
+            ObjectMapper m = Jackson2ObjectMapperBuilder.json().build();
+            SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
+            m.acceptJsonFormatVisitor(m.constructType(clazz), visitor);
+            JsonSchema jsonSchema = visitor.finalSchema();
+             return m.writeValueAsString(jsonSchema);
+        } catch (Exception e) {
+            // Add e to the logger message because JAXB Exceptions has a lot of information in the toString().
+            // and some loggers implementations just print the getMessage();
+            logger.warn("Cannot generate schema from JAXB annotations for class: " + clazz.getName()
+                    + ". Preparing generic Schema.\n" + e, e);
+            return null;
+        }
+    }
 
     public QName getQName() {
         return qName;
